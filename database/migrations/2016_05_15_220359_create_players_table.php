@@ -15,8 +15,8 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->string('points')->nullable();
-            $table->string('rank')->nullable();
+            $table->integer('points')->nullable();
+            $table->integer('rank')->nullable();
             $table->timestamps();
         });
     }

@@ -14,6 +14,19 @@ class CreateVilasTable extends Migration
     {
         Schema::create('vilas', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->string('name')->nullable();
+            $table->integer('x');
+            $table->integer('y');
+            $table->integer('points')->nullable();
+            $table->integer('rank')->nullable();
+
+            //FK para players (player que owna a aldeia)
+            $table->integer('player_id')->unsigned()->nullable();
+            $table->foreign('player_id')
+                ->references('id')
+                ->on('players');
+
             $table->timestamps();
         });
     }
