@@ -5,10 +5,15 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Laracasts\Integrated\Extensions\Selenium;
+use Laracasts\Integrated\Services\Laravel\Application as Laravel;
+
+use App\Tribo;
 
 class ExampleTest extends Selenium
 {
     protected $baseUrl = "http://localhost:8000/";
+
+    use Laravel;
 
     /**
      * A basic functional test example.
@@ -18,6 +23,14 @@ class ExampleTest extends Selenium
     public function testBasicExample()
     {
         $this->visit('/')
-             ->see('Laravel 5');
+             ->see('Laravel 5')
+             ->type(Tribo::orderByRaw('RANDOM()')->first()->name, 'campox')
+             ->wait(2000);
+        /*
+user
+password
+login_submit_button
+<span class="world_button_active">Mundo 75</span>
+         */
     }
 }
