@@ -16,7 +16,7 @@ class CreateTribosTable extends Migration
             $table->increments('id');
 
             $table->string('name')->nullable();
-            $table->integer('tag')->nullable();
+            $table->string('tag')->nullable();
             $table->integer('members')->nullable();
             $table->integer('villages')->nullable();
             $table->integer('points')->nullable();
