@@ -15,5 +15,13 @@ class Vila extends Model
         'rank',
         'player_id',
     ];
-    //
+
+    /**
+     * Uma vila pode pertencer a um player
+     */
+    public function player()
+    {
+        return $this->belongsTo('App\Player');
+    }
+
 }

@@ -14,15 +14,16 @@ class CreateTribosTable extends Migration
     {
         Schema::create('tribos', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
 
             $table->string('name')->nullable();
-            $table->string('tag')->nullable();
-            $table->string('members')->nullable();
-            $table->string('villages')->nullable();
-            $table->string('points')->nullable();
-            $table->string('all_points')->nullable();
-            $table->string('rank')->nullable();
+            $table->integer('tag')->nullable();
+            $table->integer('members')->nullable();
+            $table->integer('villages')->nullable();
+            $table->integer('points')->nullable();
+            $table->integer('all_points')->nullable();
+            $table->integer('rank')->nullable();
+
+            $table->timestamps();
         });
     }
 
