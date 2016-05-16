@@ -17,7 +17,16 @@ class CreatePlayersTable extends Migration
             $table->string('name')->nullable();
             $table->integer('points')->nullable();
             $table->integer('rank')->nullable();
+
+            //FK para tribos (tribo que o player pertence)
+            $table->integer('tribo_id')->unsigned()->nullable();
+            $table->foreign('tribo_id')
+                ->references('id')
+                ->on('tribos');
+
             $table->timestamps();
+
+
         });
     }
 

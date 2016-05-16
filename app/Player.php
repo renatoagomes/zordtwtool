@@ -9,6 +9,7 @@ class Player extends Model
     protected $fillable = [
         'id',
         'name',
+        'tribo_id',
         'points',
         'rank',
     ];
@@ -20,6 +21,14 @@ class Player extends Model
     public function vilas()
     {
         return $this->hasMany('App\Vila');
+    }
+
+    /**
+     * Um player pode estar em uma tribo
+     */
+    public function tribo()
+    {
+        return $this->belongsTo('App\Tribo');
     }
 
 

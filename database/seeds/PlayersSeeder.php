@@ -24,6 +24,7 @@ class PlayersSeeder extends Seeder
             Player::create([
                 'id' => $infoPlayer[0],
                 'name' => $infoPlayer[1],
+                'tribo_id' => ($infoPlayer[2] ? $infoPlayer[2] : null),
                 'points' => $infoPlayer[4],
                 'rank' => $infoPlayer[5]
             ]);
