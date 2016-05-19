@@ -40,6 +40,8 @@
             <div class="content">
                 <div class="title">Laravel 5</div>
                 <input type="text" name="campox">
+                <input class="classe-x" type="text" name="campox">
+                <input class="classe-y" type="text" name="campoy">
             </div>
         </div>
     </body>

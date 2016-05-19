@@ -18,50 +18,64 @@ class LoginTest extends Selenium
     protected $baseUrl="https://br75.tribalwars.com.br/";
     public $constants;
 
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        if ( ! $this->app )
+        {
+            $this->app = $this->createApplication();
+        }
 
-    function __construct() {
         $this->constants = new ConstantsRepository();
     }
 
+    /** @test */
+    public function testenvValues()
+    {
+        var_dump($this->constants);
+    }
 
     /** @test */
     public function it_logs_user_in_game()
     {
-        $this->login();
+        $this->wait(1000);
+    }
+
+    /** @test */
+    public function get_user_data()
+    {
+        $player = App\Player::where('name', $this->constants->USER_LOGIN)->first();
+
+        var_dump($player);
+
+        $vila =  $player->vilas->first();
+
+        var_dump($vila);
+
+        echo "\n Aldeias next: " . $vila->getVilasParaFarm(20)->count();
+
     }
 
     /*
-     * Preenche os fields de login
+     * Preenche os fields de login e da submit
      * e da submit
      */
     protected function login()
     {
-        $fields = $this->getLoginFields();
+        $this->visit("/")->wait(2000);
 
-        return $this->visit($this->constants->HOME_URL)
-            ->wait(2000)
-            ->andSubmitForm('login_form', $fields);
+        $this->type($this->constants->USER_LOGIN, 'user');
+        $this->type($this->constants->USER_PASSWORD,'password');
+
+        $this->session->element('css selector', 'span.button_middle')->click();
+        $this->wait(1000);
+
+        $this->session->element('css selector', '.world_button_active')->click();
     }
-
-    /*
-     * Seleciona o mundo na tela de login
-     */
-    protected function selectWorld()
-    {
-        return $this->visit($this->constants->LOGIN_URL)
-            ->andSubmitForm('login_form', $fields);
-    }
-
-    protected function getLoginFields()
-    {
-        return [
-            'user' => $this->constants->USER_LOGIN,
-            'password' => $this->constants->USER_PASSWORD
-        ];
-    }
-
-
-
 
 
 }

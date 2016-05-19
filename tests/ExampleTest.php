@@ -26,11 +26,5 @@ class ExampleTest extends Selenium
              ->see('Laravel 5')
              ->type(Tribo::orderByRaw('RANDOM()')->first()->name, 'campox')
              ->wait(2000);
-        /*
-user
-password
-login_submit_button
-<span class="world_button_active">Mundo 75</span>
-         */
     }
 }

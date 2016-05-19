@@ -13,7 +13,11 @@ class ConstantsRepository
     public $USER_PASSWORD;
     public $HOME_URL;
 
-    function __construct() {
+    /**
+     * Construtor que pega os valores do env.
+     */
+    function __construct()
+    {
         echo 'inside construtor';
         $this->USER_LOGIN = env('USER_LOGIN');
         $this->USER_PASSWORD = env('USER_PASSWORD');
