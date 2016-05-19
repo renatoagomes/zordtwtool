@@ -42,13 +42,14 @@ class LoginTest extends Selenium
     /** @test */
     public function it_logs_user_in_game()
     {
+        $this->login();
         $this->wait(1000);
     }
 
     /** @test */
     public function get_user_data()
     {
-        $player = App\Player::where('name', $this->constants->USER_LOGIN)->first();
+        $player = App\Player::where('name', $this->constants->USER_LOGIN)->get();
 
         var_dump($player);
 
@@ -76,6 +77,20 @@ class LoginTest extends Selenium
 
         $this->session->element('css selector', '.world_button_active')->click();
     }
+
+    /**
+     * Metodo para realizar saques
+     */
+    public function fazSaques()
+    {
+        $this->wait(1000);
+        $this->session->element('id', 'span.button_middle')->click();
+        $this->wait(2000);
+
+    }
+
+
+
 
 
 }
