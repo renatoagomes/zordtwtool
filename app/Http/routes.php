@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test', function () {
+    $output = shell_exec('../vendor/bin/phpunit ../tests/login/LoginTest.php');
+    return "<pre>$output</pre>";
+});

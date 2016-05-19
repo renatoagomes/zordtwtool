@@ -18,7 +18,6 @@ class ConstantsRepository
      */
     function __construct()
     {
-        echo 'inside construtor';
         $this->USER_LOGIN = env('USER_LOGIN');
         $this->USER_PASSWORD = env('USER_PASSWORD');
         $this->HOME_URL = env('HOME_URL');
@@ -34,6 +33,11 @@ class ConstantsRepository
     public $FIELD_RAM = "#unit_input_ram";
     public $FIELD_CATAPULT = "#unit_input_catapult";
     public $FIELD_SNOB = "#unit_input_snob";
+
+    public $FIELD_COORD_CSS = "input.target-input-field";
+    public $FIELD_COORD_BOX_CSS = "div.village-item";
+    public $BTN_ATK = "#target_attack";
+
 
 
 }
