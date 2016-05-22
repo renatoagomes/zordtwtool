@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laracasts\Integrated\Extensions\Selenium;
 use Laracasts\Integrated\Services\Laravel\Application as Laravel;
 use App\Repositories\ConstantsRepository;
+use WebDriver\LocatorStrategy as LocatorStrategy;
 
 /**
  * Test case para realizar o login
@@ -17,6 +18,8 @@ class LoginTest extends Selenium
 
     protected $baseUrl="https://br75.tribalwars.com.br/";
     public $constants;
+
+    protected $player;
 
     /**
      * Setup the test environment.
@@ -49,16 +52,7 @@ class LoginTest extends Selenium
     /** @test */
     public function get_user_data()
     {
-        $player = App\Player::where('name', $this->constants->USER_LOGIN)->get();
-
-        var_dump($player);
-
-        $vila =  $player->vilas->first();
-
-        var_dump($vila);
-
-        echo "\n Aldeias next: " . $vila->getVilasParaFarm(20)->count();
-
+        $this->player = App\Player::where('name', $this->constants->USER_LOGIN)->get();
     }
 
     /*
@@ -72,10 +66,10 @@ class LoginTest extends Selenium
         $this->type($this->constants->USER_LOGIN, 'user');
         $this->type($this->constants->USER_PASSWORD,'password');
 
-        $this->session->element('css selector', 'span.button_middle')->click();
+        $this->session->element(LocatorStrategy::CSS_SELECTOR, 'span.button_middle')->click();
         $this->wait(1000);
 
-        $this->session->element('css selector', '.world_button_active')->click();
+        $this->session->element(LocatorStrategy::CSS_SELECTOR, '.world_button_active')->click();
     }
 
     /**
@@ -83,10 +77,31 @@ class LoginTest extends Selenium
      */
     public function fazSaques()
     {
-        $this->wait(1000);
-        $this->session->element('id', 'span.button_middle')->click();
-        $this->wait(2000);
+        $this->session->element(LocatorStrategy::ID, $this->constants->PLACE_ID)->click();
+        $this->wait(1500);
 
+        $arrayTropas = $this->getTropasDisponiveis();
+        $TR = new TropasRepository($this->constants, $arrayTropas);
+        $modeloTropas = $TR->getModeloAtk();
+        $qntAtks = $TR->getQntAlvos($modeloTropas);
+
+        $alvos = $this->player->vilas->first()->getFarm($qntAtks);
+
+        for ($i = 0; $i < $qntAtks ; $i++) {
+            $this->preencheCamposAtk($modeloTropas);
+            $this->wait(500);
+            $this->submitAtk();
+        }
+
+
+
+        $this->type($this->constants->USER_LOGIN, 'user');
+        $this->type($this->constants->USER_PASSWORD,'password');
+
+        $this->session->element(LocatorStrategy::CSS_SELECTOR, 'span.button_middle')->click();
+        $this->wait(1000);
+
+        $this->session->element(LocatorStrategy::CSS_SELECTOR, '.world_button_active')->click();
     }
 
 
