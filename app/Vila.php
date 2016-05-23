@@ -77,7 +77,15 @@ class Vila extends Model
             $vila->distancia = $vila->getDistanciaFrom($playerVila);
         });
 
-        return $vilas->sortBy('distancia');
+        $vilasByDistancia = $vilas->sortBy('distancia');
+        while($vilasByDistancia->count() > $numAtks) {
+
+            $vilasByDistancia->pop();
+
+        }
+
+
+        return $vilasByDistancia;
     }
 
 

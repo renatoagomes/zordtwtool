@@ -29,15 +29,15 @@ Class TropasRepository
     {
         $this->constants = $constants;
 
-        $this->qnt_spear = array_key_exists("qnt_spear",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_spear'] : null;
-        $this->qnt_sword = array_key_exists("qnt_sword",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_sword'] : null;
-        $this->qnt_axe = array_key_exists("qnt_axe",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_axe'] : null;
-        $this->qnt_spy = array_key_exists("qnt_spy",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_spy'] : null;
-        $this->qnt_light = array_key_exists("qnt_light",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_light'] : null;
-        $this->qnt_heavy = array_key_exists("qnt_heavy",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_heavy'] : null;
-        $this->qnt_ram = array_key_exists("qnt_ram",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_ram'] : null;
-        $this->qnt_catapult = array_key_exists("qnt_catapult",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_catapult'] : null;
-        $this->qnt_snob = array_key_exists("qnt_snob",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['qnt_snob'] : null;
+        $this->spear = array_key_exists("SPEAR",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['SPEAR'] : null;
+        $this->sword = array_key_exists("SWORD",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['SWORD'] : null;
+        $this->axe = array_key_exists("AXE",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['AXE'] : null;
+        $this->spy = array_key_exists("SPY",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['SPY'] : null;
+        $this->light = array_key_exists("LIGHT",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['LIGHT'] : null;
+        $this->heavy = array_key_exists("HEAVY",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['HEAVY'] : null;
+        $this->ram = array_key_exists("RAM",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['RAM'] : null;
+        $this->catapult = array_key_exists("CATAPULT",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['CATAPULT'] : null;
+        $this->snob = array_key_exists("SNOB",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['SNOB'] : null;
     }
 
 
@@ -58,6 +58,37 @@ Class TropasRepository
         return [];
     }
 
+    public function getQntAtks($modeloAtk)
+    {
+        $array_qnts = [];
+
+        foreach ($modeloAtk as $selector => $qnt) {
+
+            switch($selector) {
+            case $this->constants->FIELD_LIGHT_ID:
+                $atks = 1;
+                    while ($qnt < $atks*$this::QNT_SAFE_LIGHT)
+                    {
+                        $atks++;
+                    }
+                $array_qnts[] = $atks;
+                break;
+
+            case $this->constants->FIELD_SPY_ID:
+                $atks = 1;
+                    while ($qnt < $atks*$this::QNT_SAFE_SPY)
+                    {
+                        $atks++;
+                    }
+                $array_qnts[] = $atks;
+                break;
+            }
+
+            return array_shift(asort($array_qnts));
+        }
+
+
+    }
 
 
 

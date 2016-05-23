@@ -31,5 +31,14 @@ class Player extends Model
         return $this->belongsTo('App\Tribo');
     }
 
+    /**
+     * Acessor para vila, quando o usuario tiver apenas 1
+     */
+    public function getVilaAttribute()
+    {
+        return $this->vilas->first();
+    }
+
+
 
 }
