@@ -89,9 +89,21 @@ class Vila extends Model
     }
 
 
+    /**
+     * Metodo para pegar a até uma distancia de uma vila
+     */
     public function getDistanciaFrom($vila)
     {
         return number_format(sqrt(pow(($this->x - $vila->x),2) + pow(($this->y - $vila->y),2)),2);
     }
+
+    /**
+     * Acessor para as coordenadas da vila de maneira amigavel
+     */
+    public function getCoordAmigavelAttribute()
+    {
+        return "(".$this->x.")|(".$this->y.")";
+    }
+
 
 }

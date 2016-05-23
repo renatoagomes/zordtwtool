@@ -11,15 +11,15 @@ Class TropasRepository
     const QNT_SAFE_SPY = 4;
     const QNT_SAFE_LIGHT = 3;
 
-    private $qnt_spear;
-    private $qnt_sword;
-    private $qnt_axe;
-    private $qnt_spy;
-    private $qnt_light;
-    private $qnt_heavy;
-    private $qnt_ram;
-    private $qnt_catapult;
-    private $qnt_snob;
+    public $spear;
+    public $sword;
+    public $axe;
+    public $spy;
+    public $light;
+    public $heavy;
+    public $ram;
+    public $catapult;
+    public $snob;
 
 
     /**
@@ -27,6 +27,9 @@ Class TropasRepository
      */
     function __construct(ConstantsRepository $constants, $arrayTropasDisponiveis)
     {
+        echo "\n" . "* Construindo objeto TropasRepository, tropas disponiveis:" . "\n";
+        var_dump($arrayTropasDisponiveis);
+
         $this->constants = $constants;
 
         $this->spear = array_key_exists("SPEAR",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['SPEAR'] : null;
@@ -38,6 +41,17 @@ Class TropasRepository
         $this->ram = array_key_exists("RAM",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['RAM'] : null;
         $this->catapult = array_key_exists("CATAPULT",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['CATAPULT'] : null;
         $this->snob = array_key_exists("SNOB",$arrayTropasDisponiveis) ? $arrayTropasDisponiveis['SNOB'] : null;
+
+        echo "* [DEBUG] this->snob" . $this->snob . "\n";
+        echo "* [DEBUG] this->catapult" . $this->catapult . "\n";
+        echo "* [DEBUG] this->ram" . $this->ram . "\n";
+        echo "* [DEBUG] this->heavy" . $this->heavy . "\n";
+        echo "* [DEBUG] this->light" . $this->light . "\n";
+        echo "* [DEBUG] this->spy" . $this->spy . "\n";
+        echo "* [DEBUG] this->axe" . $this->axe . "\n";
+        echo "* [DEBUG] this->sword" . $this->sword . "\n";
+        echo "* [DEBUG] this->spear" . $this->spear . "\n";
+
     }
 
 
@@ -48,22 +62,32 @@ Class TropasRepository
     public function getModeloAtk()
     {
         //Se tiver a qnt minima de spys e cl
-        if ($this->qnt_light >= self::QNT_SAFE_LIGHT && $this->qnt_spy >= self::QNT_SAFE_SPY) {
+        if ($this->light >= self::QNT_SAFE_LIGHT && $this->spy >= self::QNT_SAFE_SPY) {
             return [
-            $this->constants->FIELD_LIGHT_ID => self::QNT_SAFE_LIGHT,
-            $this->constants->FIELD_SPY_ID => self::QNT_SAFE_SPY
+                $this->constants->FIELD_LIGHT_ID => self::QNT_SAFE_LIGHT,
+                $this->constants->FIELD_SPY_ID => self::QNT_SAFE_SPY
             ];
         }
 
-        return [];
+        return null;
     }
 
+
+    /**
+     * Metodo para retornar a quantidade de ataques possiveis
+     * com um modelo de ataque especifico
+     */
     public function getQntAtks($modeloAtk)
     {
-        $array_qnts = [];
+        if (!$modeloAtk) {
+            return 0;
+        }
 
+        //guardando as quantidades diferentes para cada unidade do modelo no array
+        $array_qnts = [];
         foreach ($modeloAtk as $selector => $qnt) {
 
+            //switch para determinar qual a unidade e qual a quantidade ideal para o ataque
             switch($selector) {
             case $this->constants->FIELD_LIGHT_ID:
                 $atks = 1;
@@ -72,7 +96,7 @@ Class TropasRepository
                         $atks++;
                     }
                 $array_qnts[] = $atks;
-                break;
+                continue;
 
             case $this->constants->FIELD_SPY_ID:
                 $atks = 1;
@@ -81,12 +105,19 @@ Class TropasRepository
                         $atks++;
                     }
                 $array_qnts[] = $atks;
-                break;
+                continue;
             }
 
-            return array_shift(asort($array_qnts));
-        }
+            echo "\n" . "Checando qnt de ataques: " . "\n";
 
+            var_dump($array_qnts);
+
+            asort($array_qnts);
+            $retorno = array_shift($array_qnts);
+            echo "\n" . "retorno: $retorno" . "\n";
+
+            return $retorno;
+        }
 
     }
 
